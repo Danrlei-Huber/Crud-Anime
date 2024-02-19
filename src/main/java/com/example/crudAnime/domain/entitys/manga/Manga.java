@@ -16,7 +16,10 @@ import java.util.UUID;
 public class Manga {
 
     @Id
+    @Column(name = "id")
     private UUID id;
+    @Column(name = "title")
+    private String title;
     @Column(name = "volumes")
     private Integer volumes;
     @Column(name = "chapters")

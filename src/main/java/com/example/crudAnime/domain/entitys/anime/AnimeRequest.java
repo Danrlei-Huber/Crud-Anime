@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnimeRequest {
-
+    private String id;
+    private String title;
     private Integer episodes;
     private String status;
     private String premirer;
