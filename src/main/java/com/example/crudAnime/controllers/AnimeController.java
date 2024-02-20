@@ -18,36 +18,24 @@ public class AnimeController {
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> newAnime(@RequestBody AnimeRequest animeRequest){
         Response response = animeService.insertNewAnime(animeRequest);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/getAll")
     public ResponseEntity<Response> getAllAnime(){
         Response response = animeService.getAllAnime();
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Response> deleteAnime(@PathVariable("id") String idProceso){
         Response response = animeService.deleteAnime(idProceso);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping(value = "/patch")
     public ResponseEntity<Response> alterAnime(@RequestBody AnimeRequest animeRequest){
         Response response = animeService.alterAnime(animeRequest);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 

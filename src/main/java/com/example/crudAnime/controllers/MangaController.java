@@ -18,36 +18,25 @@ public class MangaController {
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> newManga(@RequestBody MangaRequest mangaRequest){
         Response response = mangaService.insertNewManga(mangaRequest);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 
     @GetMapping(value = "/getAll")
     public ResponseEntity<Response> getAllMangas(){
         Response response = mangaService.getAllMangas();
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> updateManga(@RequestBody MangaRequest mangaRequest){
         Response response = mangaService.updateMangaInfo(mangaRequest);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Response> deleteManga(@PathVariable("id") String id){
         Response response = mangaService.deleteManga(id);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
         return ResponseEntity.ok(response);
     }
+
 }

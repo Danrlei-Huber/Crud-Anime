@@ -18,17 +18,4 @@ public class Response {
     private String mensage;
     private Object data;
 
-    public Response(String type){
-        if (Objects.equals(type, "ERRO")){
-            this.status = false;
-            this.mensage = "ocorreu um erro";
-            this.data = "";
-        }
-        if (Objects.equals(type, "OK")) {
-            this.status = true;
-            this.mensage = "Operacao realizada com sucesso";
-            this.data = "";
-        }
-    }
-
 }

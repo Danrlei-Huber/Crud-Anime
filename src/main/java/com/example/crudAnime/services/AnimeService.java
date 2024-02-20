@@ -4,6 +4,7 @@ import com.example.crudAnime.domain.Response;
 import com.example.crudAnime.domain.entitys.anime.Anime;
 import com.example.crudAnime.domain.entitys.anime.AnimeRepository;
 import com.example.crudAnime.domain.entitys.anime.AnimeRequest;
+import com.example.crudAnime.exceptions.ExceptionNotFoundContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +25,9 @@ public class AnimeService {
             animeRepository.save(anime);
             return new Response(
                     true,
-                    "Anime adicionado com exito", "");
+                    "Anime added successfully", "");
         } catch (Exception err) {
-            return new Response("ERRO");
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 
@@ -34,9 +35,9 @@ public class AnimeService {
         try {
             List<Anime> animeResponse = animeRepository.findAll();
             return new Response(true,
-                    "Lista de animes obtida com sucesso", animeResponse);
+                    "List of animes successfully obtained", animeResponse);
         } catch (Exception err){
-            return new Response("ERRO");
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 
@@ -49,13 +50,16 @@ public class AnimeService {
                 anime.updateAnime(animeRequest);
                 animeRepository.save(anime);
                 return new Response(true,
-                        "info anime alterada com sucesso", anime);
+                        "anime info successfully changed", anime);
             } else {
-                return new Response(true, "anime nao encontrado", "");
+                throw new ExceptionNotFoundContent();
             }
 
-        } catch (Exception err) {
-            return new Response("ERRO");
+        } catch (ExceptionNotFoundContent err){
+            throw err;
+        }
+        catch (Exception err) {
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 
@@ -63,9 +67,9 @@ public class AnimeService {
         try {
             animeRepository.deleteById(UUID.fromString(id));
             return new Response(true,
-                    "Anime deletado com sucesso", "");
+                    "Anime successfully deleted", "");
         } catch (Exception err){
-            return new Response("ERRO");
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 

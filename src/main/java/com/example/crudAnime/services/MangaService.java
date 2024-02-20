@@ -4,6 +4,7 @@ import com.example.crudAnime.domain.Response;
 import com.example.crudAnime.domain.entitys.manga.Manga;
 import com.example.crudAnime.domain.entitys.manga.MangaRepository;
 import com.example.crudAnime.domain.entitys.manga.MangaRequest;
+import com.example.crudAnime.exceptions.ExceptionNotFoundContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +22,18 @@ public class MangaService {
         try {
             Manga manga = new Manga(mangaRequest);
             mangaRepository.save(manga);
-            return new Response(true, "Manga inserido com sucesso", "");
+            return new Response(true, "Manga inserted successfully", "");
         } catch (Exception err){
-            return new Response("ERRO");
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 
     public Response getAllMangas(){
         try {
             List<Manga> mangaList = mangaRepository.findAll();
-            return new Response(true, "Busca completa", mangaList);
+            return new Response(true, "Complete search", mangaList);
         } catch (Exception err){
-            return new Response("ERRO");
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 
@@ -44,12 +45,15 @@ public class MangaService {
                 Manga manga = mangaResponseQuery.get();
                 manga.updateManga(mangaRequest);
                 mangaRepository.save(manga);
-                return new Response(true, "Manga atualizado com suceso", manga);
+                return new Response(true, "Manga updated successfully", manga);
             } else {
-                return new Response(true, "Manga nao encontrado, atualizacao falhou", "");
+                throw new ExceptionNotFoundContent();
             }
-        } catch (Exception err){
-            return new Response("ERRO");
+        } catch (ExceptionNotFoundContent err){
+            throw err;
+        }
+        catch (Exception err){
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 
@@ -57,9 +61,9 @@ public class MangaService {
         try {
             mangaRepository.deleteById(UUID.fromString(id));
             return new Response(true,
-                    "Manga deletado com suceso", "");
+                    "Successfully deleted manga", "");
         } catch (Exception err){
-            return new Response("ERRO");
+            throw new RuntimeException("unexpected error encountered");
         }
     }
 }
