@@ -1,23 +1,23 @@
 package com.example.crudAnime.controllers;
 
 import com.example.crudAnime.domain.Response;
-import com.example.crudAnime.domain.entitys.anime.AnimeRequest;
-import com.example.crudAnime.services.AnimeService;
+import com.example.crudAnime.domain.entitys.manga.MangaRequest;
+import com.example.crudAnime.services.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/anime")
-public class AnimeController {
+@RequestMapping(value = "/manga")
+public class MangaController {
 
     @Autowired
-    private AnimeService animeService;
+    private MangaService mangaService;
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Response> newAnime(@RequestBody AnimeRequest animeRequest){
-        Response response = animeService.insertNewAnime(animeRequest);
+    public ResponseEntity<Response> newManga(@RequestBody MangaRequest mangaRequest){
+        Response response = mangaService.insertNewManga(mangaRequest);
         if (!response.getStatus()){
             return ResponseEntity.badRequest().body(response);
         }
@@ -25,8 +25,17 @@ public class AnimeController {
     }
 
     @GetMapping(value = "/getAll")
-    public ResponseEntity<Response> getAllAnime(){
-        Response response = animeService.getAllAnime();
+    public ResponseEntity<Response> getAllMangas(){
+        Response response = mangaService.getAllMangas();
+        if (!response.getStatus()){
+            return ResponseEntity.badRequest().body(response);
+        }
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response> updateManga(@RequestBody MangaRequest mangaRequest){
+        Response response = mangaService.updateMangaInfo(mangaRequest);
         if (!response.getStatus()){
             return ResponseEntity.badRequest().body(response);
         }
@@ -34,21 +43,11 @@ public class AnimeController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Response> deleteAnime(@PathVariable("id") String idProceso){
-        Response response = animeService.deleteAnime(idProceso);
+    public ResponseEntity<Response> deleteManga(@PathVariable("id") String id){
+        Response response = mangaService.deleteManga(id);
         if (!response.getStatus()){
             return ResponseEntity.badRequest().body(response);
         }
         return ResponseEntity.ok(response);
     }
-
-    @PatchMapping(value = "/patch")
-    public ResponseEntity<Response> alterAnime(@RequestBody AnimeRequest animeRequest){
-        Response response = animeService.alterAnime(animeRequest);
-        if (!response.getStatus()){
-            return ResponseEntity.badRequest().body(response);
-        }
-        return ResponseEntity.ok(response);
-    }
-
 }

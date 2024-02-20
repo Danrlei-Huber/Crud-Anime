@@ -21,6 +21,7 @@ import java.util.UUID;
 public class Anime {
 
     @Id
+    @Column(name = "id")
     private UUID id;
     @Column(name = "episodes")
     private Integer episodes;
@@ -43,6 +44,15 @@ public class Anime {
         this.premirer = animeRequest.getPremirer();
         this.studio = animeRequest.getStudio();
         this.genres = animeRequest.getGenres();
+    }
+
+    public void updateAnime(AnimeRequest animeRequest){
+        if (animeRequest.getTitle() != null) this.title = animeRequest.getTitle();
+        if (animeRequest.getEpisodes() != null) this.episodes = animeRequest.getEpisodes();
+        if (animeRequest.getStatus() != null) this.status = animeRequest.getStatus();
+        if (animeRequest.getPremirer() != null) this.premirer = animeRequest.getPremirer();
+        if (animeRequest.getStudio() != null) this.studio = animeRequest.getStudio();
+        if (animeRequest.getGenres() != null) this.genres = animeRequest.getGenres();
     }
 
 }

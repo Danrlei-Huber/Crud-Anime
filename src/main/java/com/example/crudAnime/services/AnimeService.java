@@ -44,17 +44,16 @@ public class AnimeService {
         try {
             String animeId = animeRequest.getId();
             Optional<Anime> animeResponseQuery = animeRepository.findById(UUID.fromString(animeId));
-            Anime anime = animeResponseQuery.get();
-            if (animeRequest.getTitle() != null) anime.setTitle(animeRequest.getTitle());
-            if (animeRequest.getEpisodes() != null) anime.setEpisodes(animeRequest.getEpisodes());
-            if (animeRequest.getStatus() != null) anime.setStatus(animeRequest.getStatus());
-            if (animeRequest.getPremirer() != null) anime.setPremirer(animeRequest.getPremirer());
-            if (animeRequest.getStudio() != null) anime.setStudio(animeRequest.getStudio());
-            if (animeRequest.getGenres() != null) anime.setGenres(animeRequest.getGenres());
+            if (animeResponseQuery.isPresent()){
+                Anime anime = animeResponseQuery.get();
+                anime.updateAnime(animeRequest);
+                animeRepository.save(anime);
+                return new Response(true,
+                        "info anime alterada com sucesso", anime);
+            } else {
+                return new Response(true, "anime nao encontrado", "");
+            }
 
-            animeRepository.save(anime);
-            return new Response(true,
-                    "info anime alterada com sucesso", anime);
         } catch (Exception err) {
             return new Response("ERRO");
         }
