@@ -12,6 +12,7 @@ public class ApiInfoController {
     @GetMapping
     public ResponseEntity<String> heloo(){
         return ResponseEntity.ok("API - Anime crud v.0.1");
+        // desenvolver testes unitarios com Junit + Mockito
         //criar um sistema com avaliacoes
         //a partir das avaliacoes criar as metricas
         //criar um sistema de usuarios
